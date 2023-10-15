@@ -64,7 +64,7 @@ class NotionPropMaker:
 
     def _fetch_info_from_doi(self, doi: str) -> dict:
         doi = doi.replace('//', '/')
-        if "arXiv" in doi:
+        if "arxiv" in doi.lower():
           info = _fetch_from_arxiv(doi)
         else:
           works = Works()
