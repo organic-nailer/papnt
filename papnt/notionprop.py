@@ -3,6 +3,7 @@ import string
 from unidecode import unidecode
 
 from crossref.restful import Works
+import arxiv
 
 from .const import SKIPWORDS, CROSSREF_TO_BIB
 
@@ -63,12 +64,32 @@ class NotionPropMaker:
 
     def _fetch_info_from_doi(self, doi: str) -> dict:
         doi = doi.replace('//', '/')
-        works = Works()
-        info = works.doi(doi)
+        if "arxiv" in doi:
+          info = _fetch_from_arxiv(doi)
+        else:
+          works = Works()
+          info = works.doi(doi)
         if info is None:
             raise Exception(f'Extracted DOI ({doi}) was not found.')
-        return works.doi(doi)
+        return info
 
+    def _fetch_from_arxiv(self, doi: str) -> dict:
+        arxiv_id = doi[-10]
+        search = arxiv.Search(id_list=[arxiv_id])
+        paper = next(search.results())
+        authors = [{"family": s} for s in paper.authors]
+        return {
+          "authors": authors,
+          "published": {
+            "date-parts": [[paper.published.year]]
+          },
+          "info": "proceedings-article",
+          "title": [paper.title],
+          "DOI": doi,
+          "publisher": "arxiv",
+          "subject": paper.categories,
+        }
+        
     def _make_citekey(self, lastname, title, year):
         # from [extensions.zotero.translators.better-bibtex.skipWords], zotero.
         def convert_lastname(lastname):
