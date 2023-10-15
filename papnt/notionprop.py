@@ -77,7 +77,7 @@ class NotionPropMaker:
         arxiv_id = doi[-10:]
         search = arxiv.Search(id_list=[arxiv_id])
         paper = next(search.results())
-        authors = [{"family": s} for s in paper.authors]
+        authors = [{"family": str(s)} for s in paper.authors]
         return {
           "author": authors,
           "published": {
