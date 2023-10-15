@@ -74,7 +74,7 @@ class NotionPropMaker:
         return info
 
     def _fetch_from_arxiv(self, doi: str) -> dict:
-        arxiv_id = doi[-10]
+        arxiv_id = doi[-10:]
         search = arxiv.Search(id_list=[arxiv_id])
         paper = next(search.results())
         authors = [{"family": s} for s in paper.authors]
