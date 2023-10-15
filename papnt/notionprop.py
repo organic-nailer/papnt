@@ -88,6 +88,7 @@ class NotionPropMaker:
           "DOI": doi,
           "publisher": "arxiv",
           "subject": paper.categories,
+          "container-title": None,
         }
         
     def _make_citekey(self, lastname, title, year):
