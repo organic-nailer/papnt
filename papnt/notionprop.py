@@ -83,7 +83,7 @@ class NotionPropMaker:
           "published": {
             "date-parts": [[paper.published.year]]
           },
-          "info": "proceedings-article",
+          "type": "proceedings-article",
           "title": [paper.title],
           "DOI": doi,
           "publisher": "arxiv",
