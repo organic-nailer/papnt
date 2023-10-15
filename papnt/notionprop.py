@@ -79,7 +79,7 @@ class NotionPropMaker:
         paper = next(search.results())
         authors = [{"family": s} for s in paper.authors]
         return {
-          "authors": authors,
+          "author": authors,
           "published": {
             "date-parts": [[paper.published.year]]
           },
